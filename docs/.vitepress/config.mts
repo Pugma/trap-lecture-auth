@@ -35,6 +35,12 @@ export default defineConfig({
           { text: '認証方式の比較と運用', link: '/chapter-3/federation' },
         ]
       },
+      {
+        text: 'おまけ編① パスキーと WebAuthn', items: [
+          { text: 'パスキーの仕組みと認証の設計', link: '/chapter-ex1/passkeys-background' },
+          { text: 'WebAuthn の登録と認証', link: '/chapter-ex1/passkeys-implementation' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }

@@ -24,6 +24,8 @@ features:
     link: /chapter-3/oidc
   - title: おまけ編① PasskeyとWebAuthn
     details: Passkeyをはじめとするパスワードレス認証の仕組みを学ぶ
+    link: /chapter-ex1/passkeys-background
   - title: おまけ編② E2EE (エンドツーエンド暗号化)
     details: 利用者の端末以外で情報が常に暗号化された状態を保つ仕組みを学ぶ
+    link: /chapter-ex1/passkeys-background
 ---
