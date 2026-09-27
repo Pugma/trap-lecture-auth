@@ -8,12 +8,14 @@ hero:
   actions:
     - theme: brand
       text: 座学編
+      link: /chapter-1/intro
     - theme: alt
       text: 実習編 (制作予定)
 
 features:
   - title: 第1章 認証・認可とは
     details: 認証と認可の概念を理解し、共通点や相違点を説明できるようになる
+    link: /chapter-1/intro
   - title: 第2章 認可
     details: OAuth2.0による権限委譲の仕組みを学ぶ
   - title: 第3章 認証

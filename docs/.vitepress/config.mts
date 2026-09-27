@@ -12,6 +12,13 @@ export default defineConfig({
     nav: [],
     sidebar: [
       { text: 'トップ', link: '/' },
+      {
+        text: '第1章 認証・認可とは',
+        items: [
+          { text: 'はじめに', link: '/chapter-1/intro' },
+          { text: '認証・認可とは', link: '/chapter-1/overview' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
