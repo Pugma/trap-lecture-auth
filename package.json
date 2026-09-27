@@ -1,0 +1,18 @@
+{
+  "name": "trap-lecture-auth",
+  "version": "1.0.0",
+  "description": "Resources of the lecture on Authorization & Authentication for Digital Creators Club traP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "keywords": [],
+  "author": "Pugma",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "2.0.0-alpha.20"
+  }
+}
