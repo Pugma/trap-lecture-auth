@@ -1,0 +1,9 @@
+{
+  "iss": "https://auth.example",
+  "sub": "alice",
+  "aud": "chat-viewer",
+  "iat": 1789862400,
+  "exp": 1789863000,
+  "auth_time": 1789862340,
+  "nonce": "example-nonce-01"
+}

@@ -1,0 +1,12 @@
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "n": "5fSyNbDXhFgQ1jlCYYPWLTdfkH2Md7Ajr_rKjqBHDyuoSxjvL4vPLD7fDDn27HqiVl_aIVyZA3G4y1NaDGpJcNI-dturmpU-pQ5tTKVBd1S8qzmOVR7Kbr_XhSjWbQmBN8WGYMMD-uHJeOoGDbj-ZcYGwHymZfGn8AQAPQr6W3m3hFRTeTF-nLcTLKJ6Ji4IFj9sdZt7ClyGNeubpT7SIlZbCtGntB-Q_6ZY-8cLQm3xSIx8lUSB4W-rkFAZrpioNdFV4g4ZNFPpzvYI2_c5q-7uHqHP_bvOAJfNpZ27M27gCsRoLzU3NSNIO2Fr1Ir8myvA1UxpjXIDWBkdPAvLQw",
+      "e": "AQAB",
+      "use": "sig",
+      "alg": "RS256",
+      "kid": "lecture-rsa-01"
+    }
+  ]
+}

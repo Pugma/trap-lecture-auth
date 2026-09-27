@@ -21,6 +21,7 @@ features:
     link: /chapter-2/oauth
   - title: 第3章 認証
     details: OIDC1.0によるアカウントの識別と、OAuth2.0との違いを学ぶ
+    link: /chapter-3/oidc
   - title: おまけ編① PasskeyとWebAuthn
     details: Passkeyをはじめとするパスワードレス認証の仕組みを学ぶ
   - title: おまけ編② E2EE (エンドツーエンド暗号化)

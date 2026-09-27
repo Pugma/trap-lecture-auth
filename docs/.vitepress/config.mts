@@ -27,6 +27,14 @@ export default defineConfig({
           { text: 'PKCE とコード交換の保護', link: '/chapter-2/pkce' },
         ]
       },
+      {
+        text: '第3章 認証', items: [
+          { text: 'OIDC の目的とフロー', link: '/chapter-3/oidc' },
+          { text: 'ID Token の発行と検証', link: '/chapter-3/id-token' },
+          { text: 'OP の設計と相互接続', link: '/chapter-3/oidc-provider' },
+          { text: '認証方式の比較と運用', link: '/chapter-3/federation' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
