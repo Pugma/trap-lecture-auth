@@ -70,6 +70,7 @@ export default defineConfig({
           { text: 'OIDC 適合試験', link: '/reference/conformance-testing' },
         ]
       },
+      { text: '謝辞', link: '/acknowledgements' },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
