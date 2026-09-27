@@ -19,6 +19,14 @@ export default defineConfig({
           { text: '認証・認可とは', link: '/chapter-1/overview' },
         ]
       },
+      {
+        text: '第2章 認可', items: [
+          { text: 'OAuth による権限の委譲', link: '/chapter-2/oauth' },
+          { text: 'OAuth のフロー', link: '/chapter-2/oauth-flows' },
+          { text: 'トークンの寿命と提供側の設計', link: '/chapter-2/token-lifecycle' },
+          { text: 'PKCE とコード交換の保護', link: '/chapter-2/pkce' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }

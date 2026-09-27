@@ -18,6 +18,7 @@ features:
     link: /chapter-1/intro
   - title: 第2章 認可
     details: OAuth2.0による権限委譲の仕組みを学ぶ
+    link: /chapter-2/oauth
   - title: 第3章 認証
     details: OIDC1.0によるアカウントの識別と、OAuth2.0との違いを学ぶ
   - title: おまけ編① PasskeyとWebAuthn
