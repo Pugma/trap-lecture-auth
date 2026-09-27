@@ -61,6 +61,15 @@ export default defineConfig({
           { text: 'IdP とユーザー管理の分離', link: '/columns/identity-architecture' },
         ]
       },
+      {
+        text: '付録・リファレンス', items: [
+          { text: 'RFC・仕様書の読解', link: '/reference/reading-specifications' },
+          { text: '用語集', link: '/reference/glossary' },
+          { text: '参考資料', link: '/reference/sources' },
+          { text: '実装・検証状況', link: '/reference/implementation-status' },
+          { text: 'OIDC 適合試験', link: '/reference/conformance-testing' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
