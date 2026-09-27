@@ -41,6 +41,13 @@ export default defineConfig({
           { text: 'WebAuthn の登録と認証', link: '/chapter-ex1/passkeys-implementation' },
         ]
       },
+      {
+        text: '実習', items: [
+          { text: '署名と JWT の検証', link: '/practice/' },
+          { text: '認可サーバーの実装', link: '/practice/authorization-server' },
+          { text: 'パスキーの実装', link: '/practice/passkeys' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
