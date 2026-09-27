@@ -48,6 +48,19 @@ export default defineConfig({
           { text: 'パスキーの実装', link: '/practice/passkeys' },
         ]
       },
+      {
+        text: 'コラム', items: [
+          { text: 'Web 標準の形成', link: '/columns/web-standards' },
+          { text: 'OAuth Client の実装', link: '/columns/client-implementation' },
+          { text: 'OIDC RP の実装', link: '/columns/rp-implementation' },
+          { text: 'UV の意味と検証範囲', link: '/columns/user-verification' },
+          { text: 'テンプレートと安全性', link: '/columns/operational-boundaries' },
+          { text: 'マシンアカウントと mTLS', link: '/columns/machine-authentication' },
+          { text: 'GitHub Actions の OIDC', link: '/columns/github-actions-oidc' },
+          { text: '権限管理と scope', link: '/columns/permissions' },
+          { text: 'IdP とユーザー管理の分離', link: '/columns/identity-architecture' },
+        ]
+      },
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
