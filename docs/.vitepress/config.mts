@@ -2,27 +2,19 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "trap-lecture-auth",
-  description: "Resources of the lecture on Authorization & Authentication for Digital Creators Club traP",
+  lang: 'ja-JP',
+  title: 'traP認証・認可講習会',
+  description: 'OAuth2.0 / OIDC1.0を基本から理解する',
+  base: '/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
-    ],
-
+    siteTitle: 'traP認証・認可講習会',
+    nav: [],
     sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
+      { text: 'トップ', link: '/' },
     ],
-
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/Pugma/trap-lecture-auth' }
     ]
   }
 })
