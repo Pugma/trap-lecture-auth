@@ -1,0 +1,43 @@
+/* Automatically space Japanese text and Latin letters/digits throughout the site.
+ * https://drafts.csswg.org/css-text-4/#text-autospace-property
+ */
+html {
+  text-autospace: normal;
+}
+
+/* Give prose links a small gap without changing navigation or heading anchors. */
+.vp-doc a[href]:not(.header-anchor) {
+  margin-inline: 0.125em;
+}
+
+/* Preserve literal spacing in code and keyboard input. */
+pre,
+code,
+kbd,
+samp {
+  text-autospace: no-autospace;
+}
+
+/* Keep sequence labels readable on narrow screens, with keyboard scrolling. */
+.vp-doc .sequence-diagram {
+  overflow-x: auto;
+  margin-block: 1.5rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: white;
+}
+
+.vp-doc .sequence-diagram:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 3px;
+}
+
+.vp-doc .sequence-diagram p {
+  margin: 0;
+}
+
+.vp-doc .sequence-diagram img {
+  display: block;
+  width: 900px;
+  max-width: none;
+}
