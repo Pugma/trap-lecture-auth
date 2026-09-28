@@ -151,6 +151,22 @@ WebAuthn の検証結果を説明する際は S16、保証レベルや要素を�
 
 ## 標準化と仕様書の資料
 
+## おまけ編②：パスキーによる E2EE
+
+2026-09-28 に確認しました  
+PRF 拡張の出力はブラウザと認証器の実物ではなく、S16 のテストベクター（§16.17.1.2）で再現しています  
+実習のスクリプトの成功は、ブラウザ・認証器・同期先が `prf` 拡張に対応していることを示しません
+
+| ID | 資料と読む場所 | 確認状況と注意 |
+| --- | --- | --- |
+| S16 | [WebAuthn Level 3](https://www.w3.org/TR/2026/REC-webauthn-3-20260825/)：§10.1.4、§13.4.6、§13.4.8、§16.17.1 | PRF 拡張の入出力と salt の計算、複数の資格情報の登録、コード注入の注意、テストベクター<br>テストベクターの salt1 と出力は手元の計算で一致を確認した |
+| S41 | [W3C：Web Cryptography API](https://www.w3.org/TR/webcrypto/)、[MDN：SubtleCrypto](https://developer.mozilla.org/ja/docs/Web/API/SubtleCrypto) | HKDF、AES-GCM、wrapKey / unwrapKey の API<br>実習は Node.js 26 の実装で実行した |
+| S42 | [draft-knodel-e2ee-definition-11](https://datatracker.ietf.org/doc/draft-knodel-e2ee-definition/) | 2023-12 に失効した個人提案<br>E2EE の定義が標準化されていないことの根拠としてだけ用いる |
+| S43 | [Apple Platform Security：Secure keychain syncing](https://support.apple.com/guide/security/secure-keychain-syncing-sec0a319b35f/web) | 同期への端末の追加条件<br>製品の動作検証は行っていない |
+| S44 | [Meta：Code Verify](https://engineering.fb.com/2022/03/10/security/code-verify/) | Web アプリで配信されるコードを検証する取組みの例 |
+| S45 | [Meta：Deploying key transparency at WhatsApp](https://engineering.fb.com/2023/04/13/security/whatsapp-key-transparency/)、[Apple：iMessage Contact Key Verification](https://security.apple.com/blog/imessage-contact-key-verification/) | 相手の公開鍵を確かめる仕組みの例<br>発展として紹介するだけで、本文では詳しく扱わない |
+| S46 | [Signal：Double Ratchet](https://signal.org/docs/specifications/doubleratchet/)、[RFC 9420（MLS）](https://www.rfc-editor.org/rfc/rfc9420.html) | メッセージごとに鍵を更新する仕様の例<br>本文では名前と位置付けだけを紹介する |
+
 S19 の [IETF：RFCs](https://www.ietf.org/process/rfcs/) と S20 の [W3C：Web Standards](https://www.w3.org/standards/) は今回確認済みです  
 文書シリーズ、標準化、レビュー・実装の位置付けを読む資料です
 

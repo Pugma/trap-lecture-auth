@@ -161,7 +161,7 @@ JOSE は[ID Token の検証](../chapter-3/id-token.md#tokens)、UP/UV と認証�
 <span id="e2ee"></span>
 **E2EE（End-to-End Encryption、エンドツーエンド暗号化）**：通信の両端で暗号化・復号し、仲介するサーバーに内容を読ませない仕組み  
 パスキーでは、資格情報を端末間で同期する際の保護に使われる例がある  
-ログイン時の署名検証とは役割が異なる → [同期の説明](../chapter-ex1/passkeys-background.md#passkeys-資格情報の同期と紛失時の回復)
+ログイン時の署名検証とは役割が異なる → [同期の説明](../chapter-ex1/passkeys-background.md#passkeys-資格情報の同期と紛失時の回復)・[E2EE の設計](../chapter-ex2/e2ee.md#e2ee)
 
 | 用語 | この教材での意味 | 本文 |
 | --- | --- | --- |
@@ -171,6 +171,8 @@ JOSE は[ID Token の検証](../chapter-3/id-token.md#tokens)、UP/UV と認証�
 | <span id="fido">FIDO2</span> | FIDO は Fast IDentity Online の略<br>FIDO2 は WebAuthn と CTAP に関わる枠組み | [説明](../chapter-ex1/passkeys-background.md#passkeys) |
 | <span id="authenticator">認証器</span> | 利用者が制御していることを認証で確かめる対象<br>WebAuthn では公開鍵資格情報を扱い、ユーザーの関与や検証を伴う認証操作を行う | [認証](../chapter-1/overview.md#definitions)・[WebAuthn](../chapter-ex1/passkeys-background.md#passkeys) |
 | <span id="rp-id">RP ID（Relying Party Identifier）</span> | WebAuthn の資格情報を利用先と結び付ける識別子 | [説明](../chapter-ex1/passkeys-background.md#passkeys) |
+| <span id="prf">PRF 拡張（`prf`）</span> | WebAuthn の拡張の一つ。資格情報に結び付いた擬似乱数関数の 32 バイトの出力を RP のページが得る<br>ログインの署名とは別の値で、E2EE の鍵の導出に使える | [説明](../chapter-ex2/e2ee.md#e2ee-prf-拡張) |
+| <span id="key-slot">鍵スロット</span> | この教材での呼び方。パスキーごとの鍵暗号化鍵で包んだデータ鍵<br>パスキーを増やしてもデータを暗号化し直さずに済む | [説明](../chapter-ex2/e2ee.md#e2ee-鍵の階層) |
 | <span id="challenge">challenge</span> | WebAuthn では、その登録・認証要求に対応する応答かを確かめるための値<br>PKCE の code_challenge とは文脈が異なる | [説明](../chapter-ex1/passkeys-implementation.md#webauthn) |
 | <span id="origin">origin</span> | WebAuthn の応答が想定した利用元からのものかを確認する対象<br>RP ID とともに検証する | [説明](../chapter-ex1/passkeys-implementation.md#webauthn) |
 | <span id="credential">credential</span> | 認証やアクセスで提示・利用する情報<br>WebAuthn では登録した公開鍵資格情報とユーザーの対応を管理する | [説明](../chapter-ex1/passkeys-implementation.md#webauthn) |

@@ -42,10 +42,16 @@ export default defineConfig({
         ]
       },
       {
+        text: 'おまけ編② E2EE', items: [
+          { text: 'パスキーによる E2EE の設計', link: '/chapter-ex2/e2ee' },
+        ]
+      },
+      {
         text: '実習', items: [
           { text: '署名と JWT の検証', link: '/practice/' },
           { text: '認可サーバーの実装', link: '/practice/authorization-server' },
           { text: 'パスキーの実装', link: '/practice/passkeys' },
+          { text: 'パスキーによる E2EE', link: '/practice/e2ee' },
         ]
       },
       {

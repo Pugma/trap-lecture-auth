@@ -183,7 +183,8 @@ WebAuthn には、この教材で扱わない機能も多くあります
 例えば次のものです
 
 - **attestation**：登録時に、認証器の種類や出所を RP が判断するための証明を受け取る [WebAuthn Level 3 §6.5](https://www.w3.org/TR/2026/REC-webauthn-3-20260825/#sctn-attestation)
-- **拡張**：資格情報の性質を返す `credProps` や、資格情報から擬似乱数を得る `prf` などを追加する [WebAuthn Level 3 §9](https://www.w3.org/TR/2026/REC-webauthn-3-20260825/#sctn-extensions)
+- **拡張**：資格情報の性質を返す `credProps` や、資格情報から擬似乱数を得る `prf` などを追加する [WebAuthn Level 3 §9](https://www.w3.org/TR/2026/REC-webauthn-3-20260825/#sctn-extensions)  
+  `prf` は[おまけ編②](../chapter-ex2/e2ee.md#e2ee-prf-拡張)で E2EE の鍵の入手先として扱う
 - **conditional mediation**：ユーザー名の入力欄の自動補完から、パスキーを選べるようにする [Credential Management Level 1](https://www.w3.org/TR/credential-management-1/#dom-credentialmediationrequirement-conditional)
 
 登録・認証で何を検証するかが分かれば、これらも仕様の該当節から追えます  
@@ -261,7 +262,8 @@ WebAuthn は資格情報のバックアップ可否やバックアップ状態�
 Apple の説明では、同期データは Apple のサーバーを経由しますが、Apple 自身も内容を読めない設計です [Apple Platform Security：iCloud Keychain security overview](https://support.apple.com/guide/security/icloud-keychain-security-overview-sec1c89c6f3b/web)
 
 ログイン先に秘密鍵を渡さず署名で証明する仕組みと、端末間でその資格情報を暗号化して同期する仕組みが組み合わされています  
-E2EE で同期内容を保護していても、新しい端末の参加や紛失時の回復を誰に許すかは重要な条件として残ります
+E2EE で同期内容を保護していても、新しい端末の参加や紛失時の回復を誰に許すかは重要な条件として残ります  
+E2EE そのものの考え方と、パスキーを使って自分のサービスのデータを E2EE にする設計は[おまけ編②](../chapter-ex2/e2ee.md)で扱います
 
 スマートフォン紛失時の復帰条件も、認証経路の一部として設計します  
 予備の認証器、別端末の資格情報、運営者への回復申請は、同じ働きをするとは限りません  

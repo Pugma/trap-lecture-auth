@@ -1,0 +1,7 @@
+{
+  "source": "WebAuthn Level 3 (2026-08-25 Recommendation) §16.17.1.2, single input case using PIN protocol 2",
+  "authenticatorCredRandom": "437e065e723a98b2f08f39d8baf7c53ecb3c363c5e5104bdaaf5d5ca2e028154",
+  "prfEvalFirst": "576562417574686e20505246207465737420766563746f727302",
+  "salt1": "527413ebb48293772df30f031c5ac4650c7de14bf9498671ae163447b6a772b3",
+  "prfResultsFirst": "3c33e07d202c3b029cc21f1722767021bf27d595933b3d2b6a1b9d5dddc77fae"
+}
