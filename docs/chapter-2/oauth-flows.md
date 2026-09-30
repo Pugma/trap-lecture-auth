@@ -295,7 +295,7 @@ Client がこれらのエラーを受けてどう処理を止めるかは[コラ
 state は Client が認可要求ごとに作る値で、認可応答で戻った値を照合するのも Client です  
 本教材では `state` を使って要求とブラウザセッションの対応を確認します [RFC 9700 §4.7](https://www.rfc-editor.org/rfc/rfc9700.html#section-4.7)
 
-Client は state で認可応答を照合するため、AS は受け取った state を変更せずに認可応答へ返します [RFC 6749 §4.1.2](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2)  
+この照合のため、AS は受け取った state を変更せずに認可応答へ返します [RFC 6749 §4.1.2](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2)  
 検証済みの戻り先へエラーを返す場合も、認可要求に state があれば同じ値を含めます [RFC 6749 §4.1.2.1](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2.1)  
 state の照合は Client の処理であり、AS のトークンエンドポイントが行うコード交換の検証とは別です  
 コード交換を保護する PKCE は、認可章末の[PKCE とコード交換の保護](pkce.md)で扱います
