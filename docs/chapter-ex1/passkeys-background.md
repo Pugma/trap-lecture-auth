@@ -36,7 +36,6 @@ passkeys.dev は W3C WebAuthn Community Adoption Group と FIDO Alliance のメ�
 
 
 第3章で扱った OIDC の認証連携を踏まえ、OP が利用者を認証する入口としてパスキーを考えます  
-この章はコードなしで読める読み物です  
 パスキーは、あるサービスのログイン方法として抽象的に扱います  
 以下は問題を理解するための説明順であり、技術の発明や普及を年代順に再現したものではありません
 
@@ -231,8 +230,7 @@ A AND B でも、同じ原因で両方が破られる可能性があります
 パスキーには、複数端末で利用できるよう同期するものと、特定のデバイスに結び付いたものがあります  
 同期は機種変更の負担を減らす一方、同期先へ入る条件も信頼の一部になります [FIDO Alliance：Passkeys FAQ](https://fidoalliance.org/passkeys/)
 
-同期型とデバイス固定型の違いは、ログイン画面よりも、資格情報をどこで使い続けられるかに現れます  
-同期型は対応する別端末へ資格情報を引き継げますが、デバイス固定型はその資格情報が特定のデバイスを離れない方式です [FIDO Alliance：Passkeys FAQ](https://fidoalliance.org/passkeys/)
+同期型とデバイス固定型の違いは、ログイン画面よりも、資格情報を新しい端末でも使い続けられるかに現れます [FIDO Alliance：Passkeys FAQ](https://fidoalliance.org/passkeys/)
 
 教材の利用者 A が、スマートフォンと予備のセキュリティキーを使う場合を考えます
 
@@ -258,8 +256,7 @@ WebAuthn は資格情報のバックアップ可否やバックアップ状態�
 未確認なら、資格情報単位の無効化で何が止まり、何が残るかを説明するほうが正確です
 
 例えば Apple の iCloud キーチェーンは、パスキーを利用者の端末間で同期します  
-その保護には、通信の両端で暗号化・復号し、仲介サーバーには内容を読ませない [E2EE（End-to-End Encryption、エンドツーエンド暗号化）](../reference/glossary.md#e2ee) が使われています  
-Apple の説明では、同期データは Apple のサーバーを経由しますが、Apple 自身も内容を読めない設計です [Apple Platform Security：iCloud Keychain security overview](https://support.apple.com/guide/security/icloud-keychain-security-overview-sec1c89c6f3b/web)
+その保護には [E2EE（End-to-End Encryption、エンドツーエンド暗号化）](../reference/glossary.md#e2ee) が使われており、同期データが経由する Apple のサーバーも内容を読めない設計です [Apple Platform Security：iCloud Keychain security overview](https://support.apple.com/guide/security/icloud-keychain-security-overview-sec1c89c6f3b/web)
 
 ログイン先に秘密鍵を渡さず署名で証明する仕組みと、端末間でその資格情報を暗号化して同期する仕組みが組み合わされています  
 E2EE で同期内容を保護していても、新しい端末の参加や紛失時の回復を誰に許すかは重要な条件として残ります  
