@@ -38,7 +38,7 @@ API を呼ぶ設計から、外部アプリが利用者を識別する設計へ�
 | メッセージ API の役割は引き続き RS | Resource Server（RS） | traQ のメッセージ API | Access Token とアクセス権を確認し、許可されたメッセージを返す |
 
 RP は、利用者の認証結果を OP に求める OAuth の Client です  
-OP は、利用者を認証し、その認証や利用者についての情報を RP に伝えられる OAuth の AS です  
+OP は、利用者を認証し、その結果や利用者についての情報を RP に伝えられる OAuth の AS です  
 すべての Client や AS を単に改名するのではなく、OIDC の機能を担うときの呼び方です [OIDC Core §1.2](https://openid.net/specs/openid-connect-core-1_0.html#Terminology)
 
 Resource Owner と End-User の対応は、この例の A さんについてのものです  
