@@ -106,7 +106,7 @@ OAuth と OIDCでは [OIDC Core §1](https://openid.net/specs/openid-connect-cor
 GitHub の [不変 ID に関する指針](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/best-practices-for-creating-an-oauth-app#use-the-durable-unique-id-to-store-the-user)と [Check a token](https://docs.github.com/en/rest/apps/oauth-applications#check-a-token) は2026-09-20に確認  
 通常の Web application flow と追加のトークン確認を区別し、ログイン実装を実行検証したとは扱いません
 
-## 認証方式の比較と運用 {#方式の比較方式の比較}
+## 認証方式の比較と運用 {#方式の比較}
 
 終了通知の経路には [Front-Channel Logout §2](https://openid.net/specs/openid-connect-frontchannel-1_0.html#RPLogout) と [Back-Channel Logout §1・§2](https://openid.net/specs/openid-connect-backchannel-1_0.html#Introduction)、記録の設計には [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html#data-to-exclude) を参照します（2026-09-21 確認）  
 ログアウト通知の実装や障害対応を実証した記録ではなく、設計判断を読むための例です
