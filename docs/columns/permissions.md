@@ -58,7 +58,7 @@ A の認証が成立していることを共通の前提にしても、次の要
 
 こうした確認を各 API が個別に思い出して実装するだけでは、経路ごとに抜けが生じます  
 共通化できる認可処理と、投稿者や参加者などリソース固有の条件を整理し、両方が適用される構成にします  
-OWASP が権限の検証を全要求へ適用するよう勧めるのも、特定の入口だけを守る設計では別経路が残るためです [OWASP Authorization Cheat Sheet：Validate the Permissions on Every Request](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html#validate-the-permissions-on-every-request)
+特定の入口だけを守る設計では、前述のとおり別経路が残ります
 
 
 <span id="permission-design"></span>
@@ -216,7 +216,7 @@ Client 自身も必要最小限の scope を要求することが推奨されて
 再認可後も実際の範囲を確認し、拒否されたら要求を繰り返し続けないようにします
 
 画面の操作可否は利用者向けの案内です  
-その判断の後にロールや所属が変わる場合もあるため、API は要求ごとに最終的な認可を行い、Client は拒否にも対応します  
+その判断の後にロールや所属が変わる場合もあるため、API は要求ごとに最終的に認可し、Client は拒否にも対応します  
 これらは IdP を自作しなくても、外部 API を使うアプリとそのバックエンドに必要な設計です
 
 **確認問題：** 読み取り専用のビューアーを、外部サービスの管理者が使います  
