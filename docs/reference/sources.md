@@ -264,3 +264,8 @@ pnpm と `minimumReleaseAge: 10080`（分単位で7日間）の採用は追加�
 
 2026-09-21 に [OIDC Core §3.1.2.3](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequestAuthentication) の OP 内部の認証、[§5.7](https://openid.net/specs/openid-connect-core-1_0.html#ClaimStability) の識別子の安定性、[RFC 7644 §1・§3](https://www.rfc-editor.org/rfc/rfc7644.html#section-1) の SCIM、[RFC 7662 §4](https://www.rfc-editor.org/rfc/rfc7662.html#section-4) の照会結果のキャッシュを確認しました  
 サービスの配置・データの管理責任・同期・障害時の動作は教材上の設計例であり、OIDC の必須アーキテクチャや traQ の実証済み構成とは扱いません
+
+## LDAP・SAML・OIDC の使われ方
+
+2026-10-03 に [RFC 4511 §4.2](https://www.rfc-editor.org/rfc/rfc4511.html#section-4.2) の Bind 操作、[RFC 4513 §5.1.2・§5.1.3・§6.3.1・§6.3.2](https://www.rfc-editor.org/rfc/rfc4513.html#section-5.1.2) の認証なしの Bind と名前・パスワードによる Bind、[RFC 4515 §3](https://www.rfc-editor.org/rfc/rfc4515.html#section-3) の検索フィルタのエスケープを確認しました  
+各方式が「よく見る場面」は利用の傾向を示した教材上の整理であり、仕様が用途を限定するものではありません
