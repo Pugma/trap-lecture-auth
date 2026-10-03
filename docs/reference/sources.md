@@ -267,5 +267,5 @@ pnpm と `minimumReleaseAge: 10080`（分単位で7日間）の採用は追加�
 
 ## LDAP・SAML・OIDC の使われ方
 
-2026-10-03 に [RFC 4511 §4.2](https://www.rfc-editor.org/rfc/rfc4511.html#section-4.2) の Bind 操作、[RFC 4513 §5.1.2・§5.1.3・§6.3.1・§6.3.2](https://www.rfc-editor.org/rfc/rfc4513.html#section-5.1.2) の認証なしの Bind と名前・パスワードによる Bind、[RFC 4515 §3](https://www.rfc-editor.org/rfc/rfc4515.html#section-3) の検索フィルタのエスケープを確認しました  
+2026-10-03 に LDAP の仕様一覧として [RFC 4510](https://www.rfc-editor.org/rfc/rfc4510.html)、[RFC 4511 §4.2](https://www.rfc-editor.org/rfc/rfc4511.html#section-4.2) の Bind 操作、[RFC 4513 §5.1.2・§5.1.3・§6.3.1・§6.3.2](https://www.rfc-editor.org/rfc/rfc4513.html#section-5.1.2) の認証なしの Bind と名前・パスワードによる Bind、[RFC 4515 §3](https://www.rfc-editor.org/rfc/rfc4515.html#section-3) の検索フィルタのエスケープを確認しました  
 各方式が「よく見る場面」は利用の傾向を示した教材上の整理であり、仕様が用途を限定するものではありません
