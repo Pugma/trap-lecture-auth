@@ -77,15 +77,9 @@ OIDC の OP/RP と SAML の IdP/SP は、認証結果を伝える側と利用す
 SAML は XML、OIDC の ID Token は JWT だからどちらかが安全、という結論も出せません  
 宛先、発行者、時間条件、要求との結合、鍵の信頼を正しく扱う必要は共通します
 
-| 観点 | OIDC の教材例 | SAML Web Browser SSO |
-|---|---|---|
-| 認証結果の提供側 / 利用側 | OP / RP | IdP / SP |
-| 主張を運ぶもの | ID Token | Assertion |
-| 認証連携の契約 | Core と関連仕様 | Core・Bindings・Profiles 等 |
-| 公開情報の交換 | Provider Configuration / JWKS | Metadata による構成情報の交換 |
-| 検証時の問い | この issuer が自分向けに発行した結果か | 信頼する IdP の結果で、対象 SP・条件に合うか |
+役割名、主張を運ぶもの、構成情報の交換などの対応は、LDAP も含めてコラムの[LDAP・SAML・OIDC の使われ方](../columns/enterprise-authentication.md#comparison)の表にまとめています
 
-SAML を新たに実装する場合には、この比較だけで要件を決めず、該当する Profile、Binding、Core の規範に戻ります  
+SAML を新たに実装する場合には、こうした対応表だけで要件を決めず、該当する Profile、Binding、Core の規範に戻ります  
 本教材では SAML IdP を作りません  
 比較の目的は、自分が既に学んだ検証の問いを、別方式を読む足場にすることです
 
