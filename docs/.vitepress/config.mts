@@ -65,6 +65,7 @@ export default defineConfig({
           { text: 'GitHub Actions の OIDC', link: '/columns/github-actions-oidc' },
           { text: '権限管理と scope', link: '/columns/permissions' },
           { text: 'IdP とユーザー管理の分離', link: '/columns/identity-architecture' },
+          { text: 'LDAP・SAML・OIDC の使われ方', link: '/columns/enterprise-authentication' },
         ]
       },
       {
