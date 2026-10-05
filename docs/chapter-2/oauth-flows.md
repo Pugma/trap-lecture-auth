@@ -9,41 +9,15 @@ OAuth の各方式の用途を区別し、Authorization Code Flow の全体像�
 ::: info このページの要点
 
 - **方式の選択**：利用者の権限を委譲する場合と、アプリ自身の権限でアクセスする場合では手順が異なる
-- **Code Flow**：ブラウザで認可コードを受け取り、トークンへ交換して API を利用する
+- **Code Flow**：ブラウザで認可コードを受け取り、検証条件を満たした場合にトークンへ交換する
 - **実装方針**：教材ではバックエンドを持つ Client を使い、コード交換を保護する
-- **検証**：要求と応答の対応、コードの発行先・期限・一回限りの使用、API のアクセス権を確かめる
+- **検証**：要求と応答の対応、戻り先、コードの発行先・期限・一回限りの使用を確かめる
 
 :::
 
 前のページでは、誰が何を許可するかと、Client・AS・RS の役割を確認しました  
 ここでは、その許可を Access Token の取得につなげる通信手順を扱います  
 [登場人物と役割の対応表](oauth.md#oauth-oauth-の登場主体)の Client はチャットビューアー、AS と RS は traQ 側の役割です
-
-## フローの種類 {#oauth-grant-types}
-
-OAuth 2.0 の基本仕様には、四つの authorization grant が定義されています  
-[authorization grant](../reference/glossary.md#grant) は、Client が Access Token を取得するために使う、認可を表す資格情報です  
-それを取得・提示する通信手順を、ここではフローとして比較します [RFC 6749 §1.3](https://www.rfc-editor.org/rfc/rfc6749.html#section-1.3)
-
-| 方式 | 主な流れと用途 | この教材での位置付け |
-| --- | --- | --- |
-| Authorization Code | 利用者が AS で許可し、Client が受け取ったコードをトークンへ交換する | 以下で詳しく扱う<br>コード交換を保護する拡張の PKCE は認可章末で扱う |
-| Client Credentials | 利用者に代わるのではなく、Client が自身の資格情報でトークンを取得する | 自身が管理するリソースや事前に認められた範囲へのアクセスを扱う<br>[マシンアカウントのコラム](../columns/machine-authentication.md)で補足する |
-| [Implicit](../reference/glossary.md#oauth-implicit) | コード交換を行わず、ブラウザ経由の認可応答で Access Token を受け取る | 漏えい・差し替えへの懸念から、教材では採用しない |
-| [Resource Owner Password Credentials（Password Grant）](../reference/glossary.md#password-grant) | Client が利用者のパスワードを受け取り、AS へ送ってトークンを取得する | 現在の安全性の基準では使用してはならない |
-
-基本仕様に掲載されていることと、現在の新規実装に適していることは別です  
-RFC 9700 は、漏えいとトークンの差し替えへの対策がある場合を除き、Implicit など認可応答で Access Token を返す方式を使わないよう推奨しています  
-Password Grant は使用禁止です  
-AS 自身のログイン画面にパスワードを入力することは、外部の Client にパスワードを渡す Password Grant とは異なります [RFC 9700 §2.1.2・§2.4](https://www.rfc-editor.org/rfc/rfc9700.html#section-2.1.2)
-
-また、OAuth 2.0 は grant の拡張を認めています  
-例えば [Device Authorization Grant](../reference/glossary.md#device-authorization) は、入力操作やブラウザの利用が制限された機器のための方式です  
-テレビなどに表示したコードを使って別端末のブラウザで利用者が認証・許可し、元の機器がトークンを取得します  
-この教材では用途の紹介にとどめます [RFC 6749 §4.5](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.5)、[RFC 8628 §1・§3](https://www.rfc-editor.org/rfc/rfc8628.html#section-1)
-
-取得済みの Refresh Token による更新も、最初に利用者の許可を得る手順とは分けて、次のページで扱います  
-以下は、利用者の許可を得るチャットビューアーに適した Code Flow を具体化します
 
 ## Authorization Code Flow {#code-flow}
 
@@ -238,57 +212,6 @@ AS はこの応答でトークンを発行しないため、Client が後続の�
 Client で state が一致していても、AS がコードを受け付ける保証にはなりません  
 AS で Client 認証が成功しても、そのブラウザが Client で開始した処理との対応までは AS が確認したことになりません
 
-### Access Token による API アクセス {#code-flow-access-token-による-api-アクセス}
-
-メッセージ API は、Client のバックエンドが提示した Access Token を受け取ります  
-ここでも通信は HTTPS を前提とします  
-以下は前節から続く架空の通信例で、`/api/messages/42` と返却する JSON の構造は教材の設計です  
-AS とメッセージ API は同じ参照アプリに置く構成を想定していますが、認可とリソースの提供の役割は区別します  
-Bearer Token の提示方法は RFC 6750 に従います [RFC 6750 §2.1](https://www.rfc-editor.org/rfc/rfc6750.html#section-2.1)
-
-```http
-GET /api/messages/42 HTTP/1.1
-Host: auth.example
-Authorization: Bearer example-access-token-01
-```
-
-API はこの要求で、トークンの有効性と `read` を検証し、トークンに対応するユーザーが、メッセージ42のあるチャンネルを閲覧できることを確認します  
-要求のユーザー ID を信用して閲覧可否を判定するのではなく、検証済みトークンに結び付いたユーザーを使って判断します  
-すべての条件を満たす場合、メッセージを返します
-
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-
-{"id":42,"text":"講習会を始めます"}
-```
-
-この応答を受けた Client が、ブラウザへメッセージを表示します  
-ユーザーのパスワードを Client へ渡すことなく、許可された読み取りを実行するところまでが、一連の委譲の結果です
-
-API は、トークンが期限切れなら `invalid_token`、必要な scope が不足するなら `insufficient_scope` を返します  
-例えば期限切れの場合の応答は次の形です [RFC 6750 §3.1](https://www.rfc-editor.org/rfc/rfc6750.html#section-3.1)
-
-```http
-HTTP/1.1 401 Unauthorized
-WWW-Authenticate: Bearer error="invalid_token"
-```
-
-トークンが有効でも、利用者が閲覧できないチャンネルのメッセージは返しません  
-例えば自分が参加していない DM が該当します  
-拒否時のステータスや対象の存在を開示するかは、アプリケーションの方針として定めます
-
-traQ の実 API は [`/api/v3/messages/:messageID`](https://github.com/traPtitech/traQ/blob/b08db60b239677913380af450541c1c1952b5898/router/v3/router.go#L217-L224) に対応し、[scope とユーザー権限](https://github.com/traPtitech/traQ/blob/b08db60b239677913380af450541c1c1952b5898/router/middlewares/access_control.go#L21-L54)、[対象チャンネルへのアクセス](https://github.com/traPtitech/traQ/blob/b08db60b239677913380af450541c1c1952b5898/service/channel/manager_impl.go#L415-L430)を確認します  
-上の `/api/messages/42` と最小 JSON は、通信の役割を追うために簡略化したものです
-
-#### API エラーの区別 {#code-flow-api-エラーへの対応}
-
-API が期限切れのトークンと権限不足を区別して返すのは、Client が取るべき対応が異なるためです  
-前者では有効なトークンの取得が必要ですが、後者では同じ許可のままトークンを取り直しても操作範囲は増えません  
-対象の DM を利用者が閲覧できない場合も、scope は Client への委譲範囲であり、利用者自身のリソースへの権限を作り出すものではありません [RFC 6750 §3.1](https://www.rfc-editor.org/rfc/rfc6750.html#section-3.1)  
-Client がこれらのエラーを受けてどう処理を止めるかは[コラム：OAuth Client の実装](../columns/client-implementation.md#client-errors-api)で扱います
-
 ### state による認可応答の照合 {#code-flow-state}
 
 全体像で扱った「戻ってきた結果を開始したブラウザ処理にだけ対応付ける」ために、OAuth では [`state`](../reference/glossary.md#state) を使えます  
@@ -298,7 +221,7 @@ state は Client が認可要求ごとに作る値で、認可応答で戻った
 この照合のため、AS は受け取った state を変更せずに認可応答へ返します [RFC 6749 §4.1.2](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2)  
 検証済みの戻り先へエラーを返す場合も、認可要求に state があれば同じ値を含めます [RFC 6749 §4.1.2.1](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2.1)  
 state の照合は Client の処理であり、AS のトークンエンドポイントが行うコード交換の検証とは別です  
-コード交換を保護する PKCE は、認可章末の[PKCE とコード交換の保護](pkce.md)で扱います
+コード交換を保護する PKCE は、次のページの[PKCE とコード交換の保護](pkce.md)で扱います
 
 Client 側での state の保存方法、並行する認可要求の扱い、照合に失敗したときの対応は[コラム：OAuth Client の実装](../columns/client-implementation.md#client-state)で扱います
 
@@ -344,3 +267,32 @@ PKCE 固有の不一致と欠落は、[PKCE とコード交換の保護](pkce.md
 一回限りの条件については、逐次的な再送の拒否だけでなく、並行する二つの要求が両方成功しないことを確認します
 
 仕様の文書構成や要件の読み方は、[RFC・仕様書の読解](../reference/reading-specifications.md#specifications)で確認できます
+
+## フローの種類 {#oauth-grant-types}
+
+OAuth 2.0 の基本仕様には、四つの authorization grant が定義されています  
+[authorization grant](../reference/glossary.md#grant) は、Client が Access Token を取得するために使う、認可を表す資格情報です  
+それを取得・提示する通信手順を、ここではフローとして比較します [RFC 6749 §1.3](https://www.rfc-editor.org/rfc/rfc6749.html#section-1.3)
+
+| 方式 | 主な流れと用途 | この教材での位置付け |
+| --- | --- | --- |
+| Authorization Code | 利用者が AS で許可し、Client が受け取ったコードをトークンへ交換する | 本ページの中心経路<br>コード交換を保護する拡張の PKCE は次のページで扱う |
+| Client Credentials | 利用者に代わるのではなく、Client が自身の資格情報でトークンを取得する | 自身が管理するリソースや事前に認められた範囲へのアクセスを扱う<br>[マシンアカウントのコラム](../columns/machine-authentication.md)で補足する |
+| [Implicit](../reference/glossary.md#oauth-implicit) | コード交換を行わず、ブラウザ経由の認可応答で Access Token を受け取る | 漏えい・差し替えへの懸念から、教材では採用しない |
+| [Resource Owner Password Credentials（Password Grant）](../reference/glossary.md#password-grant) | Client が利用者のパスワードを受け取り、AS へ送ってトークンを取得する | 現在の安全性の基準では使用してはならない |
+
+基本仕様に掲載されていることと、現在の新規実装に適していることは別です  
+RFC 9700 は、漏えいとトークンの差し替えへの対策がある場合を除き、Implicit など認可応答で Access Token を返す方式を使わないよう推奨しています  
+Password Grant は使用禁止です  
+AS 自身のログイン画面にパスワードを入力することは、外部の Client にパスワードを渡す Password Grant とは異なります [RFC 9700 §2.1.2・§2.4](https://www.rfc-editor.org/rfc/rfc9700.html#section-2.1.2)
+
+また、OAuth 2.0 は grant の拡張を認めています  
+例えば [Device Authorization Grant](../reference/glossary.md#device-authorization) は、入力操作やブラウザの利用が制限された機器のための方式です  
+テレビなどに表示したコードを使って別端末のブラウザで利用者が認証・許可し、元の機器がトークンを取得します  
+この教材では用途の紹介にとどめます [RFC 6749 §4.5](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.5)、[RFC 8628 §1・§3](https://www.rfc-editor.org/rfc/rfc8628.html#section-1)
+
+取得済みの Refresh Token による更新も、最初に利用者の許可を得る手順とは分けて、[トークンの寿命](token-lifecycle.md)で後から扱います  
+
+
+次は [PKCE とコード交換の保護](pkce.md) で、コード交換を始めた Client の要求に結び付けます  
+その後、[Access Token と Resource Server](access-token.md) で API の認可を確認します

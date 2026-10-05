@@ -202,36 +202,6 @@ Client の画面からログアウトするだけでは、バックエンドに�
 委譲の取消しは、すでに Client が取得して保存したメッセージのコピーを回収する操作ではありません  
 取得後の保存期間や削除方針まで OAuth のトークンだけで強制できると考えると、許可画面の説明と実際に制御できる範囲が食い違います
 
-### Access Token の性質 {#oauth-access-token-の性質}
-
-本教材は Bearer Token を使います  
-[Bearer](../reference/glossary.md#bearer-token) とは、そのトークンを持つ者が利用できる性質を指します  
-Client を最初に認証したとしても、盗まれた Access Token を API へ提示する者が同じ Client であると、それだけで保証されるわけではありません [RFC 6750 §1.2](https://www.rfc-editor.org/rfc/rfc6750.html#section-1.2)
-
-教材の API は、`Authorization` ヘッダーで提示されたトークンを受け付ける設計にします  
-URL へ埋め込むと履歴やログに残る経路が増えるため、教材の通常経路にはしません  
-トークンの形式は Client から見て [opaque](../reference/glossary.md#opaque-token)、つまり中身を解釈しない文字列を採用案とします  
-JWT でなければ OAuth ではない、ということはありません [RFC 6750 §2.1・§5.3](https://www.rfc-editor.org/rfc/rfc6750.html#section-2.1)
-
-API は、無効・期限切れなどのトークンと、トークンは有効だが必要な scope がない状況を区別します  
-Bearer のエラー仕様では、それぞれ `invalid_token` と `insufficient_scope` が整理されています  
-対象へのアクセス権がない場合に何を利用者へ返すかは、存在の開示も含めたアプリ側の方針として決めます [RFC 6750 §3.1](https://www.rfc-editor.org/rfc/rfc6750.html#section-3.1)
-
-#### Bearer Token の受渡し {#oauth-bearer-token-の受渡し}
-
-チャットビューアーが受け取った Access Token を、別のサービスへそのまま渡したとします  
-API が通常の Bearer Token として受け付ける構成なら、渡された側もその値を提示できるようになります  
-トークンを渡すことは、トークンに認められた操作を実行する能力を別のサービスへ渡すことです [RFC 6750 §5.1・§5.3](https://www.rfc-editor.org/rfc/rfc6750.html#section-5.1)  
-Client がトークンをログや別サービスへ渡さないための扱いは、[コラム：OAuth Client の実装](../columns/client-implementation.md#client-token-handling)で扱います
-
-提供側は、Bearer Token の提示だけでは、提示した者が発行先の Client であるかを区別できないことを前提にします  
-どの Resource Server を対象に発行し、どのサーバーが受け入れるかという制限は、scope の操作範囲とは別の観点です  
-RFC 9700 は Access Token を特定の Resource Server や操作に制限する方針を整理しています [RFC 9700 §2.3](https://www.rfc-editor.org/rfc/rfc9700.html#section-2.3)
-
-本教材は一つのメッセージ API を主例にするため、複数 API 向けのトークン取得手順までは増やしません  
-ただし、実装を拡張するときには「同じ AS が発行したからどの API でも受け入れる」と一般化しないようにします  
-発行元が信頼できること、対象 API に使えること、要求した操作とリソースへアクセスできることは、それぞれ確認する条件です
-
 #### 利用者からの権限委譲と Client 自身の権限 {#oauth-ユーザー委譲と-client-自身の権限}
 
 夜間に定期処理を行うプログラムでは、人がその場で同意画面を操作しない場合があります  
@@ -247,11 +217,5 @@ Client Credentials Grant は confidential Client が自身の管理下のリソ�
 利用者と Client を区別せずに記録すると、誰の許可を取り消せばよいか、どのアプリから要求されたかを区別しにくくなります  
 認可方式を選ぶ前に、操作の根拠が利用者からの権限委譲なのか、プログラム自身の権限なのかを定めます
 
-### 認可の責任分担 {#oauth-認可の責任分担}
-
-AS はユーザーの認証とは別に、Client に認める scope と利用者の許可を確認し、実際に許可した範囲を発行結果へ反映します  
-メッセージ API は、そのトークンの有効性、操作に必要な scope、対象の閲覧・編集権限を確認します  
-要求された権限、トークンに認められた権限、個々の操作の許可は、それぞれ異なる段階の判断です
-
-人がその場で許可の操作を行わないアクセスには、Client Credentials Grant などの方式もあります  
-[マシンアカウントと mTLS のコラム](../columns/machine-authentication.md)で、プログラム自身の認証と、そのプログラムへのアクセスの許可を補足します
+次は [Authorization Code Flow](oauth-flows.md) で許可をコードへ結び付け、[PKCE](pkce.md) で交換を保護します  
+その後、[Access Token と Resource Server](access-token.md) で API の認可を成立させます

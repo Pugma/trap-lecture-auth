@@ -97,3 +97,8 @@ Pragma: no-cache
 
 PKCE の不一致を state の不一致と同じ場所で受け入れることはできません  
 state は Client が callback を照合し、PKCE は AS がコード交換を照合するため、それぞれの拒否条件は別の処理にあります
+
+## API 利用へ
+
+コードの発行先・戻り先・state と PKCE の役割を確認したら、[Access Token と Resource Server](access-token.md) へ進みます  
+Refresh Token の追加より先に、発行したトークンで許可された API 操作を成立させます
