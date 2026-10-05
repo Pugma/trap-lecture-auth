@@ -79,7 +79,7 @@ API の資格情報として機能することが分かっている以上、ロ�
 
 また、ある API で使えるトークンを、関係のない API へ試しに送る設計は避けます  
 受信したサービスはその値を知るため、誤った送信先も漏えい先になり得ます  
-提供側がトークンの受け入れ先を制限する考え方は、[Bearer Token の受渡し](../chapter-2/oauth.md#oauth-bearer-token-の受渡し)で扱います
+提供側がトークンの受け入れ先を制限する考え方は、[Bearer Token の受渡し](../chapter-2/access-token.md#oauth-bearer-token-の受渡し)で扱います
 
 ## 発行結果とエラーへの対応 {#client-errors}
 

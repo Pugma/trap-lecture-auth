@@ -61,7 +61,7 @@ OP が発行した認証結果を受け取る RP 側で、検証・要求との�
 
 ## ID Token の検証処理 {#rp-id-token-validation}
 
-本編の[Claims の検証条件](../chapter-3/id-token.md#tokens-claims-の検証条件)は、RP が ID Token を受け入れる観点を示しました  
+本編の[Claims の検証条件](../chapter-3/id-token.md#id-token-validation)は、RP が ID Token を受け入れる観点を示しました  
 ここでは、その検証をアプリへ組み込むときに取り違えやすい点を扱います  
 JWT の検証処理を自作する手順ではなく、OIDC を扱うライブラリの設定と検証範囲を確認するための観点です
 
