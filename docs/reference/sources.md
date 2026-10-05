@@ -44,6 +44,10 @@ AND/OR の図式は経路を読むための教材上の整理であり、独立�
 
 ## 認可：委譲、コード交換、提供側、寿命
 
+2026-10-05 の再構成では [RFC 6749 §1.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-1.4) の Access Token の表現と、JWT Access Token の別仕様である [RFC 9068](https://www.rfc-editor.org/rfc/rfc9068.html) を確認しました  
+業務 API が REST に限定されない例には [gRPC Metadata](https://grpc.io/docs/guides/metadata/) の認証情報を運ぶ用途を参照しました  
+gRPC の実装・相互接続試験は行っていません
+
 権限管理のコラムには [NIST RBAC FAQ](https://csrc.nist.gov/Projects/Role-Based-Access-Control/faqs) と [NIST SP 800-162：ABAC の定義](https://csrc.nist.gov/pubs/sp/800/162/upd2/final) を参照します（2026-09-21 確認）  
 scope の意味と発行結果は RFC 6749 §3.3・§5.1、Client が必要最小限の権限を要求することは §10.3、トークンの権限制限は RFC 9700 §2.3 に対応させます  
 ロール名、属性に関する条件、細分化した scope 名は教材の設計例であり、traQ の実装に追加された機能ではありません

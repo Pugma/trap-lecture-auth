@@ -48,9 +48,9 @@ OAuth と OIDC の用語の対応は[登場人物の対応表](../chapter-3/oidc
 
 | 用語 | 意味 | 本文 |
 | --- | --- | --- |
-| <span id="implicit-flow">Implicit Flow</span> | OIDC ではコード交換なしで認可応答から ID Token を受け取る方式 | [説明](../chapter-3/oidc.md#implicit-flow) |
-| <span id="hybrid-flow">Hybrid Flow</span> | 認可応答でコードとトークンを受け取り、コード交換も行う方式 | [説明](../chapter-3/oidc.md#hybrid-flow) |
-| <span id="front-back-channel">フロントチャネル / バックチャネル</span> | ブラウザを介する経路と、RP・OP が直接通信する経路 | [比較](../chapter-3/oidc.md#三つのフローの比較) |
+| <span id="implicit-flow">Implicit Flow</span> | OIDC ではコード交換なしで認可応答から ID Token を受け取る方式 | [説明](../chapter-3/oidc-other-flows.md#implicit-flow) |
+| <span id="hybrid-flow">Hybrid Flow</span> | 認可応答でコードとトークンを受け取り、コード交換も行う方式 | [説明](../chapter-3/oidc-other-flows.md#hybrid-flow) |
+| <span id="front-back-channel">フロントチャネル / バックチャネル</span> | ブラウザを介する経路と、RP・OP が直接通信する経路 | [比較](../chapter-3/oidc-other-flows.md#三つのフローの比較) |
 | <span id="token-hash">at_hash / c_hash</span> | Access Token / 認可コードから計算した値<br>ID Token と同時に受け取った値の対応を検証するために使う | [説明](../chapter-3/oidc.md#authorization-code-flow) |
 
 ## 状態とトークン
@@ -142,8 +142,8 @@ JOSE は[ID Token の検証](../chapter-3/id-token.md#tokens)、UP/UV と認証�
 | 用語 | この教材での意味 | 本文 |
 | --- | --- | --- |
 | <span id="jose">JOSE（JSON Object Signing and Encryption）</span> | 本書で JWS・JWE・JWK などの JSON に関わる暗号技術とデータ形式をまとめて扱う際の呼び名 | [説明](../chapter-3/id-token.md#tokens) |
-| <span id="jwe-enc">enc</span> | JWE の内容暗号化方式を示すヘッダーパラメータ<br>鍵管理方式を示す JWE の alg とは役割が異なる | [説明](../chapter-3/id-token.md#tokens-jwe-の暗号化と検証) |
-| <span id="iv-tag">IV（Initialization Vector）と認証タグ</span> | IV は暗号化で使う初期化ベクトル、認証タグは暗号文などの完全性を確認する値<br>具体的な条件は暗号方式に従う | [説明](../chapter-3/id-token.md#tokens-jwe-の暗号化と検証) |
+| <span id="jwe-enc">enc</span> | JWE の内容暗号化方式を示すヘッダーパラメータ<br>鍵管理方式を示す JWE の alg とは役割が異なる | [説明](../chapter-3/id-token-operations.md#tokens-jwe-の暗号化と検証) |
+| <span id="iv-tag">IV（Initialization Vector）と認証タグ</span> | IV は暗号化で使う初期化ベクトル、認証タグは暗号文などの完全性を確認する値<br>具体的な条件は暗号方式に従う | [説明](../chapter-3/id-token-operations.md#tokens-jwe-の暗号化と検証) |
 | <span id="claims">Claims</span> | 発行者・対象者・期限などについての主張<br>用途によって必須項目と検証条件が決まる | [説明](../chapter-3/id-token.md#tokens) |
 | <span id="subject-types">public / pairwise な sub</span> | OIDC の利用者識別子の種類<br>public はクライアント間で同じ値、pairwise は Sector Identifier を単位に値を分けて異なる利用先の間での照合を抑える | [説明](../chapter-3/id-token.md#oidc-public-と-pairwise-の識別子) |
 | <span id="email-verified">email_verified</span> | true は OP がメールアドレスの制御を確認したことを示す<br>利用者を継続して識別したり、アカウントを統合したりする根拠とは別 | [説明](../chapter-3/id-token.md#oidc-メール確認とアカウント統合) |
