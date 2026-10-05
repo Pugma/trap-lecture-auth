@@ -2,7 +2,7 @@
 
 ::: tip このページの目標
 
-OAuth の登場人物と OIDC の役割を対応付け、OP が発行する認証結果と、RP の検証に備えて OP が満たす条件、三つのフローの違いを説明できるようになる
+OAuth の登場人物と OIDC の役割を対応付け、Code Flow で OP が発行する認証結果と RP の検証条件を説明できるようになる
 
 :::
 
@@ -10,9 +10,8 @@ OAuth の登場人物と OIDC の役割を対応付け、OP が発行する認�
 
 - **目的**：OAuth が共通化しない利用者の認証結果を外部アプリへ伝える
 - **役割の対応**：認証結果を利用する Client を RP、その結果を発行する AS を OP と呼ぶ
-- **OP の契約**：RP が発行元・宛先・要求との対応を検証するので、OP はそれらを ID Token に正しく載せる
-- **三つのフロー**：Code・Implicit・Hybrid は、認可応答とコード交換で受け取る値と経路が異なる
-- **採用判断**：仕様上の違いと現在の安全性の条件を確認し、教材では Code + PKCE を採用する
+- **基本経路**：教材では Authorization Code Flow + PKCE を使い、ID Token を token endpoint から受け取る
+- **OP の契約**：RP が発行元・宛先・要求との対応を検証するため、OP は ID Token を正しく発行する
 
 :::
 
@@ -114,7 +113,7 @@ OIDC は、認証結果を **[ID Token](../reference/glossary.md#id-token)** と
 | --- | --- | --- |
 | 発行元と利用者 | `iss` と `sub` の意味、識別子の安定性 | 自分の issuer と、利用者ごとに安定した `sub` を載せる |
 | 受け取り手 | `aud` と RP の client ID の照合 | 要求した RP の client ID を `aud` に載せる |
-| 証拠の正当性と期限 | ID Token の検証手順、`exp` などの条件 | 公開した鍵で署名し、有効期限を設定する |
+| 証拠の正当性と期限 | ID Token の検証手順、`exp` などの条件 | 秘密鍵で署名し、検証用の公開鍵と有効期限を用意する |
 | 開始した要求との対応 | 認証結果を、開始したログインにだけ対応付ける | 要求に含まれた nonce を返す |
 | 認証の時刻ややり直し | `auth_time`、`max_age`、`prompt` の意味と処理条件 | 実際の認証時刻を保持し、要求の条件に従って再認証やエラーを返す |
 
@@ -147,44 +146,16 @@ ID Token を受け入れたことから、閲覧できない DM のメッセー�
 同じブラウザ操作で作られても、それぞれの寿命や終了条件は異なります  
 RP の Cookie を削除しただけで、OP のセッションや発行済みの全トークンが消えるとは考えないでください
 
-## OIDC のフロー
+## OIDC Code Flow {#oidc-code-flow}
 
-OIDC の三つのフローは、認証結果と API 用のトークンを、どの経路で RP に届けるかが異なります  
-共通する入口は `openid` を含む要求であり、どの応答を求めるかを `response_type` で指定します [OIDC Core §3](https://openid.net/specs/openid-connect-core-1_0.html#Authentication)
+OIDC の基本経路では、`openid` を含む要求を Authorization Code Flow で処理します  
+他のフローは[Implicit / Hybrid Flow](oidc-other-flows.md)で扱います [OIDC Core §3](https://openid.net/specs/openid-connect-core-1_0.html#Authentication)
 
-### 三つのフローの比較
+### Code Flow の位置付け
 
-認可の章では、ブラウザがコードを持ち帰り、Client が交換して Access Token を得ました  
-以下の図では、その Client が RP、コードを発行・交換する AS が OP に対応します  
-OIDC では、この流れに ID Token を追加する方法に加え、ブラウザ経由で ID Token を直接返す方法も定義します  
-以下の表は、まず「認可応答で返す値」と「後から交換して得る値」の違いを読むためのものです
-
-**フロントチャネル**はブラウザを介して要求・応答を運ぶ経路です  
-**バックチャネル**は RP と OP が直接通信する経路で、本教材では RP バックエンドから token endpoint を呼びます  
-どちらも通信の保護が必要で、バックチャネルなら受け取った値を無条件に信頼できるという意味ではありません
-
-| フロー | ブラウザ経由で受け取るもの | バックエンドで交換して受け取るもの |
-| --- | --- | --- |
-| Authorization Code | 交換に使う短期間の結果 | 認証結果・API 用の資格情報 |
-| Implicit | 認証結果 | 交換なし |
-| Implicit | 認証結果・API 用の資格情報 | 交換なし |
-| Hybrid | 交換に使う結果・認証結果 | 認証結果・API 用の資格情報 |
-| Hybrid | 交換に使う結果・API 用の資格情報 | 認証結果・API 用の資格情報 |
-| Hybrid | 交換に使う結果・認証結果・API 用の資格情報 | 認証結果・API 用の資格情報 |
-
-表では、値の名前と技術上の必須条件を省略しています  
-各方式の `response_type`、認可応答で返る値、nonce・`at_hash`・`c_hash` の条件は、ID Token の検証で扱います [OIDC Core §3.2.2.1](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthRequest)・[§3.3.2.1](https://openid.net/specs/openid-connect-core-1_0.html#HybridAuthRequest)
-
-各図は、OAuth の図と同じく、左からブラウザ・RP（Client）・OP（AS）・RS を配置します  
-上から下へ追うと、要求・応答と、各役割が行う検証を対応付けられます  
-RP の処理場所はフローごとに列の説明へ記載しています  
-横幅が足りない場合は図を横にスクロールできます
-
-以下の図は Code の既定の query 応答と、Implicit / Hybrid の既定の fragment 応答を描きます  
-query は URL の `?` 以降に置くパラメータで、callback サーバーへの要求にも含まれます  
-fragment は URL の `#` 以降であり、callback サーバーへの HTTP 要求には送られません  
-ブラウザ内の RP の処理が読み取り、必要ならバックエンドへ別の要求で渡します  
-別の response mode を選ぶ構成もありますが、図では扱いません [OIDC Core §3.2.2.5](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthResponse)・[§3.2.2.7](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitCallback)
+認可の章では、ブラウザがコードを持ち帰り、Client が交換して Access Token を得ました
+OIDC Code Flow では、その Client が RP、コードを発行・交換する AS が OP に対応し、認証結果を表す ID Token が追加されます
+図は Code の既定の query 応答を示します [OIDC Core §3.1.2.5](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest)
 
 ### Authorization Code Flow
 
@@ -202,13 +173,8 @@ RP は開始した処理との対応を確認してコードを交換し、ID To
 矢印3では認証結果を求め、矢印9では API 用の資格情報に加えて認証結果を受け取ります  
 RP による ID Token の検証とログイン状態の確立が加わる一方、矢印10〜11の API アクセスには引き続き Access Token を使います
 
-ID Token 内の発行者や期限などの項目を Claims と呼びます  
-その一つである `at_hash` は、Access Token から計算したハッシュ値の一部を記録する項目です  
-ハッシュは入力から一定長の値を計算するもので、OP は同時に発行する Access Token から計算した値を、署名で保護された ID Token に入れます  
-RP は受け取った Access Token から同じ計算を行い、ID Token 内の値と照合して、二つが対応するかを検証します  
-Code Flow の token 応答では、OP が `at_hash` を含めることは任意です [OIDC Core §3.1.3.6](https://openid.net/specs/openid-connect-core-1_0.html#CodeIDToken)
-
-Code Flow の技術上の値と検証条件は、次の ID Token のページで説明します [OIDC Core §3.1.3.6](https://openid.net/specs/openid-connect-core-1_0.html#CodeIDToken)・[§3.1.3.7](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation)
+Code Flow では `at_hash` を OP が含めることは任意です
+各フローで使う `at_hash` / `c_hash` の条件は、[後段の検証説明](id-token-operations.md#tokens-claims-の検証条件)で扱います [OIDC Core §3.1.3.6](https://openid.net/specs/openid-connect-core-1_0.html#CodeIDToken)
 
 #### OAuth と OIDC の Code Flow {#oidc-oauth-と-oidc-の-code-flow}
 
@@ -227,54 +193,4 @@ OAuth の Code Flow と同じ通信経路を使いながら、OIDC では認証�
 ブラウザがコードを運ぶ経路と、バックエンドでコードを交換する経路は保たれます  
 追加されるのは、認証結果を要求し、その結果を RP のログイン判断へ使うための条件です
 
-### Implicit Flow
-
-Implicit Flow は、コード交換を挟まず、認可応答で ID Token を受け取る構成です  
-`id_token` なら認証結果だけを受け取り、`id_token token` なら API 用の Access Token も受け取ります  
-図は後者を示し、RP の処理をブラウザ内に置いています [OIDC Core §3.2.1](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowSteps)
-
-<div class="sequence-diagram" tabindex="0" role="region" aria-label="oidc-implicit のシーケンス図">
-
-![Implicit Flow：ブラウザ内の RP が OP へ認証要求を送り、認証結果と API 用の資格情報をブラウザ経由で受け取る。RP は認証結果を検証し、資格情報で API を呼ぶ。コード交換は行わない](/diagrams/oidc-implicit.svg)
-
-</div>
-
-ブラウザ経由で認証結果を受け取るため、RP は開始したログインとの対応と認証結果の検証を行います  
-値の名前と必須条件は、ID Token の検証で扱います [OIDC Core §3.2.2.9](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitTokenValidation)・[§3.2.2.10](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitIDToken)・[§3.2.2.11](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitIDTokenValidation)
-
-### Hybrid Flow
-
-Hybrid Flow は、認可応答でコードとトークンを受け取り、さらにコード交換を行う構成です  
-図の `code id_token` では認証結果を先に受け取り、Access Token はバックチャネルで取得します  
-他の二つの組合せでは、比較表のとおり Access Token も認可応答に含まれます [OIDC Core §3.3.1](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowSteps)
-
-<div class="sequence-diagram" tabindex="0" role="region" aria-label="oidc-hybrid のシーケンス図">
-
-![Hybrid Flow の code id_token：OP が code・ID Token・state を fragment で返し、ブラウザ内の RP 処理がバックエンドへ渡す。RP は ID Token と c_hash を検証し、コード交換で ID Token と Access Token を受け取る。両 ID Token の iss と sub の一致も確認する](/diagrams/oidc-hybrid.svg)
-
-</div>
-
-`c_hash` は、at_hash と同様の考え方で認可コードから計算する値です  
-認可応答の ID Token には、同時に返すコードに対応する `c_hash` が必須です  
-`code id_token token` なら、同時に返す Access Token に対応する `at_hash` も必須です  
-これらは値の差し替えを検出するための結び付きで、署名・発行元・宛先の検証を代替しません [OIDC Core §3.3.2.10](https://openid.net/specs/openid-connect-core-1_0.html#HybridCodeValidation)・[§3.3.2.11](https://openid.net/specs/openid-connect-core-1_0.html#HybridIDToken)
-
-両方の endpoint から ID Token を受け取った場合、`iss` と `sub` は一致しなければなりません  
-token endpoint 側では `at_hash` と `c_hash` を省略できるため、認可応答と同じ Claim 一覧を要求するわけではありません [OIDC Core §3.3.3.6](https://openid.net/specs/openid-connect-core-1_0.html#HybridIDToken2)
-
-### 検証とフローの選択
-
-どのフローでも、RP は ID Token の発行元・宛先・期限・要求との対応などを条件に従って検証します  
-本教材の RP は信頼する OP の鍵と許可した署名方式を使い、nonce の不一致や宛先の違いを拒否します  
-そのため OP は、公開した鍵と宣言した方式で署名し、要求の nonce と RP の client ID を ID Token に正しく載せます  
-フローごとに必須となる `at_hash` や `c_hash` も、OP が同時に返す値から計算して含めます  
-`at_hash` / `c_hash` の計算による検証は Core が SHOULD として示す手順で、図では実施する構成を示しています  
-Claim を含めることが必須となる条件と、RP の検証手順に対する MUST・SHOULD の指定は区別してください [OIDC Core §3.1.3.7](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation)・[§3.2.2.9](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitTokenValidation)・[§3.3.2.10](https://openid.net/specs/openid-connect-core-1_0.html#HybridCodeValidation)
-
-現在の選択には OAuth Security BCP も適用します  
-RFC 9700 は、トークン注入と漏えいの対策がない限り、Access Token を認可応答で返す方式を使うべきではないとしています  
-代わりに `code` や `code id_token` のように token endpoint で Access Token を得る方式を推奨します  
-これは `id_token` 単独や Hybrid 全体を一律禁止する記述ではありません [RFC 9700 §2.1.2](https://www.rfc-editor.org/rfc/rfc9700.html#section-2.1.2)
-
-三つを知ることで既存の接続設定を読めますが、教材の OP が提供し RP が使うフローの採用案は、引き続き Code Flow + PKCE です  
-図は仕様の説明であり、三つのフローを実装・接続試験した記録ではありません
+他の OIDC フローと仕様上の位置付けは、[Implicit / Hybrid Flow](oidc-other-flows.md)を参照してください

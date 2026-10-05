@@ -17,14 +17,16 @@ export default defineConfig({
         items: [
           { text: 'はじめに', link: '/chapter-1/intro' },
           { text: '認証・認可とは', link: '/chapter-1/overview' },
+          { text: 'JWT を読む', link: '/chapter-1/jwt' },
         ]
       },
       {
         text: '第2章 認可', items: [
           { text: 'OAuth による権限の委譲', link: '/chapter-2/oauth' },
           { text: 'OAuth のフロー', link: '/chapter-2/oauth-flows' },
-          { text: 'トークンの寿命と提供側の設計', link: '/chapter-2/token-lifecycle' },
           { text: 'PKCE とコード交換の保護', link: '/chapter-2/pkce' },
+          { text: 'Access Token と Resource Server', link: '/chapter-2/access-token' },
+          { text: 'トークンの寿命と提供側の設計', link: '/chapter-2/token-lifecycle' },
         ]
       },
       {
@@ -32,6 +34,8 @@ export default defineConfig({
           { text: 'OIDC の目的とフロー', link: '/chapter-3/oidc' },
           { text: 'ID Token の発行と検証', link: '/chapter-3/id-token' },
           { text: 'OP の設計と相互接続', link: '/chapter-3/oidc-provider' },
+          { text: 'ID Token の運用と追加仕様', link: '/chapter-3/id-token-operations' },
+          { text: 'Implicit / Hybrid Flow', link: '/chapter-3/oidc-other-flows' },
           { text: '認証方式の比較と運用', link: '/chapter-3/federation' },
         ]
       },
@@ -48,7 +52,7 @@ export default defineConfig({
       },
       {
         text: '実習', items: [
-          { text: '署名と JWT の検証', link: '/practice/' },
+          { text: 'JWT を読む・検証する', link: '/practice/' },
           { text: '認可サーバーの実装', link: '/practice/authorization-server' },
           { text: 'パスキーの実装', link: '/practice/passkeys' },
           { text: 'パスキーによる E2EE', link: '/practice/e2ee' },
